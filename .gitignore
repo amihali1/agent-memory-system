@@ -1,0 +1,7 @@
+# This is a FRAMEWORK repo. It must never contain real memory data.
+# The live vault (with real facts) lives elsewhere and is private.
+/live/
+*.local.md
+.obsidian/workspace*.json
+Thumbs.db
+.DS_Store

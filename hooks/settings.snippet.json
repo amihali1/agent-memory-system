@@ -1,0 +1,14 @@
+{
+  "_comment": "Merge into ~/.claude/settings.json. Set AGENT_MEMORY_VAULT to your vault path.",
+  "env": {
+    "AGENT_MEMORY_VAULT": "C:\Users\you\AgentMemory"
+  },
+  "hooks": {
+    "SessionStart": [
+      { "hooks": [ { "type": "command", "command": "bash ~/.claude/agent-memory/hooks/session-start.sh" } ] }
+    ],
+    "Stop": [
+      { "hooks": [ { "type": "command", "command": "bash ~/.claude/agent-memory/hooks/stop-autocommit.sh" } ] }
+    ]
+  }
+}
