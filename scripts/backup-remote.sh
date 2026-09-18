@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # Wire a PRIVATE backup remote for the vault and push. NEVER use a public host.
 # Usage: scripts/backup-remote.sh <git-remote-url> [VAULT_PATH]
-#   e.g. ssh://proxmox@10.0.0.47/srv/git/agent-memory.git   (bare repo over SSH)
-#        https://forgejo.homelab.lan/andy/agent-memory.git  (private Forgejo)
+#   e.g. ssh://user@host.example/srv/git/agent-memory.git   (bare repo over SSH)
+#        https://forge.example.lan/you/agent-memory.git      (private Forgejo/Gitea)
 set -euo pipefail
 REMOTE="${1:?usage: backup-remote.sh <git-remote-url> [vault]}"
 VAULT="${2:-$HOME/AgentMemory}"

@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# Blocks commits containing private data. Enabled via: git config core.hooksPath .githooks
+exec "$(git rev-parse --show-toplevel)/scripts/scan-secrets.sh" --staged

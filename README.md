@@ -88,6 +88,7 @@ The framework is public; **the data is not.** A real vault accumulates internal 
 - This repo ships **synthetic examples only** and `.gitignore`s any `live/` directory.
 - The runtime vault is a **separate, private** location backed up to a homelab git remote (or Syncthing) — never a public host.
 - Physical separation (two folders, two repos) beats one repo with a clever `.gitignore`: a single bad ignore line can't leak what was never in the tree.
+- Enforced, not just intended: a **pre-commit hook** and a **CI scan** (`scripts/scan-secrets.sh`) block private IPs, key/token formats, and your own denylisted hostnames from ever entering a commit. See [SECURITY.md](SECURITY.md). Enable the hook after cloning: `git config core.hooksPath .githooks`.
 
 ## License
 

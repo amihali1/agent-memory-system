@@ -5,3 +5,4 @@
 .obsidian/workspace*.json
 Thumbs.db
 .DS_Store
+.secrets-denylist.local
