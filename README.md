@@ -6,6 +6,10 @@ Most "agent memory" is a flat pile of notes an agent appends to and rarely re-re
 
 > **Note on scope.** This repo is the *framework*: the protocol, skills, hooks, templates, and a synthetic example vault. My real memory vault (private, homelab-backed) is an *instance* of this framework and is not published — it contains internal infrastructure details. See [Security model](#security-model).
 
+![Memory graph — 171 notes, one connected web, with skills as the hubs that pull their source facts inward](docs/graph.svg)
+
+<sub>Topology of my real vault after the reflection loop ran: 171 notes, 349 links, a single connected component. The large green nodes are distilled **skills**; each pulls its source **facts** (grey) inward. Node labels are removed — this shows the *structure*, never the content (see [Security model](#security-model)).</sub>
+
 ---
 
 ## The idea in one picture
