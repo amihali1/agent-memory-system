@@ -18,7 +18,15 @@ link() { # link <target> <source>
 }
 
 echo "Deploying framework from $REPO"
-link "$CLAUDE_DIR/skills/agent-memory" "$REPO/skills"
+# One link per skill so each is invocable as /<name> (/recall /remember /reflect /handoff).
+# Claude Code only discovers skills one level under skills/, so a nested link hides them.
+if [ -L "$CLAUDE_DIR/skills/agent-memory" ]; then
+  rm "$CLAUDE_DIR/skills/agent-memory" && echo "  removed legacy nested link $CLAUDE_DIR/skills/agent-memory"
+fi
+for skill in "$REPO"/skills/*/; do
+  skill="${skill%/}"
+  link "$CLAUDE_DIR/skills/$(basename "$skill")" "$skill"
+done
 link "$CLAUDE_DIR/agent-memory/hooks"  "$REPO/hooks"
 link "$VAULT/templates"                "$REPO/templates"
 echo ""

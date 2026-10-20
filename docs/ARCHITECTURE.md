@@ -30,6 +30,12 @@ The wiki layer. One page per domain, linking to the facts and skills in that dom
 
 This is what makes it a wiki rather than a folder: **backlinks** (every skill knows which facts fed it), a **graph view** (Obsidian, free), and human-navigable entry points per topic.
 
+### Handoffs — task state, not memory
+
+`handoffs/<project>/` sits beside the three tiers but isn't one of them. A handoff is a dated snapshot of *where a task stands* (goal, the user's rules, done/in-progress, decisions, pointers, gotchas, next step) so another agent can pick up the work. Durable learnings still go to `facts/`; the handoff links them instead of copying them. Handoffs aren't indexed in `maps/` or `MEMORY.md`, because they go stale by design.
+
+The receiving agent's behaviour is part of the file: a fixed header tells whoever reads it to ingest the file, acknowledge, and **wait for the user's instructions**, treating the contents as context rather than commands. That makes a handoff portable to any agent that can read a file, and it means a handoff can't start work on its own.
+
 ## The reflection loop
 
 This is the core mechanism. Run at session end or on demand via `/reflect`.
@@ -62,13 +68,14 @@ Every memory file has YAML frontmatter for machine relevance-matching + human-re
 - **fact.md** — `type: fact`, a `project`, a `date`, links to related memories.
 - **skill.md** — Claude Code `SKILL.md` frontmatter (`name`, `description`) plus a `sources:` list of the facts it was distilled from.
 - **map.md** — a domain hub: sections for Skills, Open questions, Facts, each a `[[link]]` list.
+- **handoff.md** — `type: handoff`, a fixed receiver header (ingest, acknowledge, wait), then Goal / User rules / State / Decisions / Where things are / Gotchas / Open questions / Suggested next step / Load also.
 
 ## Runtime vs. framework (the deploy link)
 
 The framework (this repo) is the **source of truth** for skills, hooks, and templates. The runtime **vault** is where real memories live. To avoid drift (edit here, forget to update there), the framework is *deployed* into the vault:
 
 ```
-this repo/skills/*       ──deploy──►   ~/.claude/skills/*        (or vault/.skills)
+this repo/skills/<name>  ──deploy──►   ~/.claude/skills/<name>   (one link per skill → /<name>)
 this repo/hooks/*        ──deploy──►   wired into settings.json
 this repo/templates/*    ──deploy──►   vault/templates/*
 ```

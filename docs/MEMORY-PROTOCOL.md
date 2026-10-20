@@ -23,6 +23,10 @@ A local memory vault lives at `<VAULT_PATH>`. Use it every session.
 - Run `/reflect` to distill clustered facts into `skills/`. See `skills/reflect/SKILL.md`.
 - The Stop hook auto-commits the vault.
 
+### Hand off (switching agents or sessions)
+- Run `/handoff` to write the current task state to `<VAULT_PATH>/handoffs/<project>/`, then give the next agent: `Read <path> and follow the instructions at the top.`
+- When you receive a handoff, ingest it, acknowledge in a few lines, and **wait for the user's instructions**. Don't start the next step on your own.
+
 ### Never
 - Never write real secrets (keys, tokens, passwords) into memory — store a *pointer* to where the secret lives, not the value.
 - Never push the vault to a public remote. It's private by construction.
