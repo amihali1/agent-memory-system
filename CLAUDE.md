@@ -15,9 +15,9 @@ or docs that get *deployed* into the vault.
   hand-edit the deployed copy.
 
 ## Layout
-- `skills/` — reflect / remember / recall (the agent-invoked SKILL.md units)
+- `skills/` — reflect / remember / recall / handoff (the agent-invoked SKILL.md units)
 - `hooks/` — SessionStart (surface index) + Stop (auto-commit vault)
-- `templates/` — fact / skill / map shapes
+- `templates/` — fact / skill / map / handoff shapes
 - `scripts/` — deploy, init-vault, backup-remote
 - `docs/` — ARCHITECTURE.md, MEMORY-PROTOCOL.md
 - `examples/vault/` — synthetic worked example

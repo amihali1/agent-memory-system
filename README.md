@@ -54,11 +54,11 @@ The **reflection loop** (`/reflect`) is the part that makes this more than a not
 
 ```
 docs/          ARCHITECTURE.md (deep dive), MEMORY-PROTOCOL.md (the read/write contract)
-skills/        reflect/ remember/ recall/  — the three agent-invoked skills (SKILL.md each)
-templates/     fact.md, skill.md, map.md — the shapes each memory takes
+skills/        reflect/ remember/ recall/ handoff/  — the agent-invoked skills (SKILL.md each)
+templates/     fact.md, skill.md, map.md, handoff.md — the shapes each memory takes
 hooks/         session-start + stop-autocommit + settings snippet
 scripts/       deploy (framework → runtime), init-vault, backup-remote
-examples/vault/  a small SYNTHETIC vault showing the tiers + a distilled skill
+examples/vault/  a small SYNTHETIC vault showing the tiers, a distilled skill, and a handoff
 ```
 
 ## Quick start
@@ -82,6 +82,7 @@ Then point your agent's global instructions at the vault using the contract in [
 1. **Session start** — `recall` loads `MEMORY.md` + relevant `maps/`, pulling only the subset that matches the current project.
 2. **During work** — `remember` writes an episodic note to `facts/<project>/` the moment something non-obvious is learned. One fact per file.
 3. **Session end** — the stop hook auto-commits; periodically `reflect` distills clustered facts into `skills/` and archives the raw notes.
+4. **Switching agents** — `/handoff` packs the current task state (goal, user rules, done/in-progress, decisions, pointers, gotchas, next step) into one dense file under `handoffs/<project>/`. Any agent told to read it ingests it, acknowledges, and **waits for instructions**; the file's header says so, so it works for Codex or Cursor too, not just Claude Code. `/handoff load` is the Claude Code receive side.
 
 See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for the full design and [`examples/vault/`](examples/vault/) for a worked example: two related `facts/` notes about auth failures, distilled into one `skills/debugging-auth-401s/SKILL.md`.
 
