@@ -8,16 +8,34 @@
   are unavailable.
 
 .PARAMETER Vault
-  Runtime memory vault. Default: $HOME\AgentMemory
+  Runtime memory vault. Default: $env:AGENT_MEMORY_VAULT, else the
+  AGENT_MEMORY_VAULT entry in <ClaudeDir>\settings.json, else $HOME\AgentMemory.
+  Must be an existing vault (run scripts/init-vault.sh first).
 .PARAMETER ClaudeDir
   Agent config dir. Default: $HOME\.claude
 #>
 param(
-  [string]$Vault     = (Join-Path $HOME 'AgentMemory'),
+  [string]$Vault     = '',
   [string]$ClaudeDir = (Join-Path $HOME '.claude')
 )
 $ErrorActionPreference = 'Stop'
 $Repo = Split-Path -Parent $PSScriptRoot
+
+# Resolve the vault the same way the hooks do. AGENT_MEMORY_VAULT usually lives
+# only in settings.json's "env" block (Claude Code sessions), not in this shell.
+if (-not $Vault) { $Vault = $env:AGENT_MEMORY_VAULT }
+if (-not $Vault) {
+  $settings = Join-Path $ClaudeDir 'settings.json'
+  if (Test-Path $settings) {
+    try { $Vault = (Get-Content $settings -Raw | ConvertFrom-Json).env.AGENT_MEMORY_VAULT } catch {}
+  }
+}
+if (-not $Vault) { $Vault = Join-Path $HOME 'AgentMemory' }
+# Never scaffold a vault here: a wrong path would silently create a stray one.
+if (-not (Test-Path (Join-Path $Vault 'MEMORY.md'))) {
+  throw "No vault at $Vault (no MEMORY.md). Run scripts/init-vault.sh <path>, or pass -Vault <path>."
+}
+Write-Host "Vault: $Vault"
 
 function Link-Dir($target, $source) {
   if (Test-Path $target) {

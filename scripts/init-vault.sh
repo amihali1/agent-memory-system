@@ -3,7 +3,8 @@
 # Usage: scripts/init-vault.sh [VAULT_PATH]   (default: ~/AgentMemory)
 set -euo pipefail
 VAULT="${1:-$HOME/AgentMemory}"
-mkdir -p "$VAULT"/{facts/_archive,skills,maps,global,templates,handoffs}
+# templates/ is not created here: deploy links it to the framework repo.
+mkdir -p "$VAULT"/{facts/_archive,skills,maps,global,handoffs}
 cd "$VAULT"
 [ -f MEMORY.md ] || cat > MEMORY.md <<'MD'
 # Memory index

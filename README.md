@@ -67,7 +67,8 @@ examples/vault/  a small SYNTHETIC vault showing the tiers, a distilled skill, a
 # 1. Scaffold a fresh, empty vault at the runtime location
 scripts/init-vault.sh  ~/AgentMemory
 
-# 2. Deploy this framework's skills/hooks/templates into it (+ your agent config dir)
+# 2. Deploy this framework's skills/hooks/templates into it (+ your agent config dir).
+#    Vault path: argument, else $AGENT_MEMORY_VAULT, else settings.json's env entry, else ~/AgentMemory.
 pwsh scripts/deploy.ps1   # Windows
 scripts/deploy.sh         # macOS/Linux
 

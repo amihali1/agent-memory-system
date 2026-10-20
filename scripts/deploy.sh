@@ -4,8 +4,22 @@
 # Usage: scripts/deploy.sh [VAULT] [CLAUDE_DIR]
 set -euo pipefail
 REPO="$(cd "$(dirname "$0")/.." && pwd)"
-VAULT="${1:-$HOME/AgentMemory}"
 CLAUDE_DIR="${2:-$HOME/.claude}"
+
+# Vault: argument, else $AGENT_MEMORY_VAULT, else the AGENT_MEMORY_VAULT entry in
+# settings.json (it usually lives only there, for Claude Code sessions), else ~/AgentMemory.
+VAULT="${1:-${AGENT_MEMORY_VAULT:-}}"
+if [ -z "$VAULT" ] && [ -f "$CLAUDE_DIR/settings.json" ]; then
+  VAULT="$(sed -n 's/.*"AGENT_MEMORY_VAULT"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' \
+    "$CLAUDE_DIR/settings.json" | head -n1 | sed 's/\\\\/\\/g')"
+fi
+VAULT="${VAULT:-$HOME/AgentMemory}"
+# Never scaffold a vault here: a wrong path would silently create a stray one.
+if [ ! -f "$VAULT/MEMORY.md" ]; then
+  echo "No vault at $VAULT (no MEMORY.md). Run scripts/init-vault.sh <path>, or pass it as arg 1." >&2
+  exit 1
+fi
+echo "Vault: $VAULT"
 
 link() { # link <target> <source>
   local target="$1" source="$2"
