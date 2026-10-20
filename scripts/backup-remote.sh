@@ -5,7 +5,7 @@
 #        https://forge.example.lan/you/agent-memory.git      (private Forgejo/Gitea)
 set -euo pipefail
 REMOTE="${1:?usage: backup-remote.sh <git-remote-url> [vault]}"
-VAULT="${2:-$HOME/AgentMemory}"
+VAULT="${2:-${AGENT_MEMORY_VAULT:-$HOME/AgentMemory}}"
 cd "$VAULT"
 case "$REMOTE" in
   *github.com*|*gitlab.com*) echo "REFUSING: $REMOTE looks public. Vault is private."; exit 1;;
